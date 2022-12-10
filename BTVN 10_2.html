@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>MENU</h1>
+    <ul class="menuClass">
+        <button onclick=""> Add more item </button>
+    </ul>
+    <form id="form">
+        New dirnk: <input type="text" name="nameDrinks"> <br>
+        <input type="submit" value="Add item">
+    </form>
+    <script>
+        let drinks = [
+            {
+                id: 1,
+                name: 'Trà đào',
+            },
+            {
+                id: 2,
+                name: 'Trà vải',
+            },
+            {
+                id: 3,
+                name: 'Trà hạt sen',
+            },
+            {
+                id: 4,
+                name: 'Hồng trà',
+            },
+            {
+                id: 5,
+                name: 'Trà cam',
+            },
+        ]
+        function renderMenu(drinks) {
+            let ulelement1 = document.getElementsByClassName('menuClass');
+            let content = '';
+            for (let item of drinks) {
+                content += `
+                <li>
+                    ${item.name} ---
+                    <button onclick="removeDrink(${item.id})"> Delete </button> ///
+                    <button onclick="updateMenu(${item.id})"> Edit </button>
+                </li>
+                `
+            }
+            ulelement1[0].innerHTML = content;
+        };
+        renderMenu(drinks);
+
+        // updatemenu
+        function updateMenu(id) {
+            let inputedit = prompt(`Please enter your new drink ${drinks[id - 1].name}:`,`${drinks[id-1].name}`);
+            if (!inputedit) return;
+            drinks[id - 1].name = inputedit;
+            renderMenu(drinks);
+        };
+        renderMenu(drinks);
+
+        // delete
+        function removeDrink(id) {
+            drinks.splice(id - 1, 1);
+            renderMenu(drinks);
+        };
+
+        // form
+        function addInputFromUser(input) {
+            if (!input) return;
+            const newDrink = {
+                id: drinks.length,
+                name: input,
+            }
+
+            drinks.push(newDrink);
+            renderMenu(drinks);
+        };
+
+        const addform = document.getElementById('form');
+        addform.addEventListener('submit', (e) => {
+            e.preventDefault();
+            addInputFromUser(addform.nameDrinks.value);
+        });
+
+        
+        function saveLocal(){
+            const tempDrinks = JSON.stringify(drinks);
+            localStorage.setItem('drinks', drinks)
+        };
+
+        
+    </script>
+</body>
+
+</html>

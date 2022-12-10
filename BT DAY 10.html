@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <h2>List of drinks 1:</h2>
+  <ul class="menuClass">
+  </ul>
+  <button onclick="getInputFromUser()">Add item</button>
+
+  <script>
+    let drinks = [
+      {
+        id: 1,
+        name: 'Milk',
+      },
+      {
+        id: 2,
+        name: 'Coffee',
+      },
+      {
+        id: 3,
+        name: 'Juice',
+      },
+      {
+        id: 4,
+        name: 'Coca',
+      },
+      {
+        id: 5,
+        name: 'Pepsi',
+      }
+    ]
+
+    // way 1
+
+    function renderMenu(drinks) {
+      const olElement1 = document.getElementsByClassName('menuClass');
+      let content = '';
+
+      for (let item of drinks) {
+        content += `
+        <li>
+            ${item.name}
+            <button onclick="removeDrink(${item.id})" >delete</button>
+        </li>
+    `;
+      }
+
+      olElement1[0].innerHTML = content;
+    };
+
+    renderMenu(drinks);
+
+    function getInputFromUser() {
+      const input = prompt('Please enter your new drink:');
+      if (!input) return;
+      const newDrink = {
+        id: drinks.length,
+        name: input,
+      }
+
+      drinks.push(newDrink);
+      renderMenu(drinks);
+    };
+
+    function removeDrink(id) {
+      drinks.splice(id - 1, 1);
+      renderMenu(drinks);
+    };
+  </script>
+
+</body>
+
+</html>
